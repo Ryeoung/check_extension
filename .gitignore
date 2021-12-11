@@ -158,6 +158,6 @@ buildNumber.properties
 HELP.md
 mvnw
 mvnw.cmd
-
+.mvn
 
 # End of https://www.toptal.com/developers/gitignore/api/java-web,macos,intellij,maven
