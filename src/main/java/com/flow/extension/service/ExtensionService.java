@@ -26,6 +26,8 @@ public class ExtensionService {
         return extensionDao.findByName(name);
     }
 
+
+
     /**
      * @param extension 확장자 객체
      * @return Extension 삽입한 확장자 객체
@@ -43,7 +45,7 @@ public class ExtensionService {
     /**
      * @param extension 확장자 객체
      * @return Extension 수정한 확장자 객체
-     * 확장자 객체를 수정한다.
+     *체확장자 객체를 수정한다.
      */
     public Extension updateExtension(Extension extension) {
         return extensionDao.save(extension);

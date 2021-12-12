@@ -2,19 +2,16 @@ package com.flow.extension.dao;
 
 import com.flow.extension.domain.Extension;
 import com.flow.extension.enums.ExtensionType;
-import net.bytebuddy.implementation.bind.annotation.RuntimeType;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
-import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
-import org.springframework.test.context.junit4.SpringRunner;
 
 
-import javax.swing.*;
+
 import java.util.ArrayList;
 import java.util.List;
 
