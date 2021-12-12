@@ -4,15 +4,21 @@ import com.flow.extension.dao.ExtensionDao;
 import com.flow.extension.domain.Extension;
 import com.flow.extension.enums.ExtensionType;
 import com.flow.extension.service.ExtensionService;
+import com.flow.extension.utils.TestUtil;
 import org.junit.jupiter.api.Assertions;
-import org.junit.jupiter.api.BeforeEach;
+
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
+
+import java.util.List;
+
+import static org.mockito.ArgumentMatchers.anyLong;
 import static org.mockito.BDDMockito.given;
+import static org.mockito.Mockito.*;
 
 
 @ExtendWith(MockitoExtension.class)
@@ -25,43 +31,73 @@ public class ExtensionServiceTest {
 
 
     /**
-     * 확장자 삽입 테스트
+     * 파일 확장자 성공 테스트
      */
     @Test
     void insert() {
-        Extension extension = new Extension();
-        extension.setName("bat");
-        extension.setBlock(false);
+        String name = "bat";
+        Extension extension = TestUtil.getExtension();
         extension.setType(ExtensionType.DEFAULT);
+        given(extensionDao.findByName(name)).willReturn(null);
         given(extensionDao.save(extension)).willReturn(extension);
+
+        //when
+        Extension inserted =  extensionService.insertExtension(extension);
+        //then
+        Assertions.assertEquals(inserted, inserted);
+    }
+
+    /**
+     *  파일 확장자 삽입 실패 테스트
+     */
+    @Test
+    void insertToFail() {
+        String name = "bat";
+        Extension extension = TestUtil.getExtension();
+        given(extensionDao.findByName(name)).willReturn(extension);
 
         //when
         Extension inserted =  extensionService.insertExtension(extension);
 
         //then
-        Assertions.assertEquals(extension.getName(), inserted.getName());
+        Assertions.assertEquals(inserted, null);
+
+    }
+
+    /**
+     * 수정 성공 테스트
+     */
+    @Test
+    void update() {
+        String name = "bat";
+        Extension extension = TestUtil.getExtension();
+        given(extensionDao.findByName(name)).willReturn(extension);
+        given(extensionDao.save(extension)).willReturn(extension);
+
+        //when
+        Extension updated =  extensionService.updateExtension(extension);
+
+        //then
+        Assertions.assertEquals(extension.getName(), updated.getName());
 
 
     }
 
     /**
-     * 수정 테스트
+     * 수정 실패 테스트
      */
     @Test
-    void update() {
-        Extension extension = new Extension();
-        extension.setName("bat");
-        extension.setBlock(false);
+    void updateToFail() {
+        String name = "bat";
+        Extension extension = TestUtil.getExtension();
         extension.setType(ExtensionType.DEFAULT);
-        given(extensionDao.save(extension)).willReturn(extension);
+        given(extensionDao.findByName(name)).willReturn(null);
 
         //when
-        Extension inserted =  extensionService.updateExtension(extension);
+        Extension updated =  extensionService.updateExtension(extension);
 
         //then
-        Assertions.assertEquals(extension.getName(), inserted.getName());
-
-
+        Assertions.assertEquals(updated, null);
     }
 
     /**
@@ -70,10 +106,7 @@ public class ExtensionServiceTest {
     @Test
     void findByName() {
         String name = "bat";
-        Extension extension = new Extension();
-        extension.setName(name);
-        extension.setBlock(false);
-        extension.setType(ExtensionType.DEFAULT);
+        Extension extension = TestUtil.getExtension();
 
         given(extensionDao.findByName(name)).willReturn(extension);
 
@@ -82,5 +115,53 @@ public class ExtensionServiceTest {
 
         //then
         Assertions.assertEquals(extension.getName(), findExtension.getName());
+    }
+
+    /**
+     * 모든 파일 확장자 데이터 가져오기
+     */
+    @Test
+    void findAll() {
+        List<Extension> extensions = TestUtil.getExtensionList();
+
+        given(extensionDao.findAll()).willReturn(extensions);
+
+        //when
+        List<Extension> findExtensions = extensionService.findAll();
+
+        //then
+        Assertions.assertEquals(extensions.size(), findExtensions.size());
+    }
+
+    /**
+     * 파일 확장자 기본키로 데이터 지우기 확인
+     */
+    @Test
+    void deleteByExtensionId() {
+        Extension extension = TestUtil.getExtension();
+        extension.setExtensionId(0L);
+        given(extensionDao.findByExtensionId(0L)).willReturn(extension);
+        //when
+        boolean isDelete = extensionService.deleteExtension(0L);
+
+        //then
+        verify(extensionDao, times(1)).delete(extension);
+        Assertions.assertEquals(isDelete, true);
+    }
+
+    /**
+     *  파일 확장자 지우기 실패
+     */
+    @Test
+    void deleteByExtensionIdFail() {
+        Extension extension = TestUtil.getExtension();
+        extension.setExtensionId(0L);
+        given(extensionDao.findByExtensionId(0L)).willReturn(null);
+        //when
+        boolean isDelete = extensionService.deleteExtension(0L);
+
+        //then
+        verify(extensionDao, times(0)).delete(extension);
+        Assertions.assertEquals(isDelete, false);
     }
 }

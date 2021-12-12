@@ -1,7 +1,7 @@
 package com.flow.extension.dao;
 
 import com.flow.extension.domain.Extension;
-import com.flow.extension.enums.ExtensionType;
+import com.flow.extension.utils.TestUtil;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -12,9 +12,11 @@ import org.springframework.test.context.junit.jupiter.SpringExtension;
 
 
 
-import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * ExtensionDao 테스트
+ */
 @ExtendWith(SpringExtension.class)
 @DataJpaTest
 @AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE)
@@ -28,37 +30,34 @@ public class ExtensionDaoTest {
     }
 
 
+    /**
+     * 파일 확장자 저장
+     */
     @Test
     public void save() {
-        Extension extension = new Extension();
-        extension.setName("bat");
-        extension.setBlock(false);
-        extension.setType(ExtensionType.DEFAULT);
-
+        Extension extension = TestUtil.getExtension();
+        //when
         Extension savedExtension = extensionDao.save(extension);
+
+        //then
         Assertions.assertEquals(extension.getName(), savedExtension.getName());
     }
 
+    /**
+     * 파일 확장자 리스트 삽입
+     */
     @Test
     public void saveAll() {
-        Extension extension1 = new Extension();
-        extension1.setName("bat");
-        extension1.setBlock(false);
-        extension1.setType(ExtensionType.DEFAULT);
 
-        Extension extension2 = new Extension();
-        extension2.setName("bat");
-        extension2.setBlock(false);
-        extension2.setType(ExtensionType.DEFAULT);
+        List<Extension> extensions = TestUtil.getExtensionList();
 
-        List<Extension> extensions = new ArrayList<>();
-        extensions.add(extension1);
-        extensions.add(extension2);
-
+        //when
         List<Extension> savedExtensions = extensionDao.saveAll(extensions);
-        System.out.println(extensions.get(0));
-        System.out.println(savedExtensions.get(0));
+
+        //then
         Assertions.assertEquals(extensions.get(0).getName(), savedExtensions.get(0).getName());
+        Assertions.assertEquals(extensions.size(), savedExtensions.size());
+
     }
 
     /**
@@ -67,15 +66,47 @@ public class ExtensionDaoTest {
     @Test
     void findByName() {
         String name = "bat";
-        Extension extension = new Extension();
+        Extension extension = TestUtil.getExtension();
 
-        extension.setName(name);
-        extension.setBlock(false);
-        extension.setType(ExtensionType.DEFAULT);
-
+        //when
         extensionDao.save(extension);
         Extension findExtension = extensionDao.findByName(name);
 
+        //then
         Assertions.assertEquals(extension.getName(), findExtension.getName());
+    }
+
+    /**
+     * 모든 파일 확장자 찾기
+     */
+    @Test
+    void findAll() {
+
+        List<Extension> extensions = TestUtil.getExtensionList();
+        //when
+        extensionDao.saveAll(extensions);
+
+        //then
+        List<Extension> findExtensions = extensionDao.findAll();
+        Assertions.assertEquals(findExtensions.size(), extensions.size());
+
+    }
+
+    /**
+     * 파일 확장자 삭제 테스트
+     */
+    @Test
+    void delete() {
+        //given
+        Extension extension = TestUtil.getExtension();
+        extensionDao.save(extension);
+
+        //when
+        extensionDao.delete(extension);
+
+        //then
+        Extension findExtension = extensionDao.findByName(extension.getName());
+        Assertions.assertEquals(findExtension, null);
+
     }
 }

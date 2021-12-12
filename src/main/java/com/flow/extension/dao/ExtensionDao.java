@@ -13,4 +13,14 @@ public interface ExtensionDao extends JpaRepository<Extension, Long> {
      * 확장자 이름으로 검색
      */
     Extension findByName(String name);
+
+
+    /**
+     * @param extensionId 파일 확장자 객체 기본키
+     * @return Extension
+     *
+     *  확장자 기본키로 검색
+     */
+    Extension findByExtensionId(Long extensionId);
+
 }
