@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
+@RequestMapping("/api")
 public class ExtensionController {
     private final ExtensionService extensionService;
 
@@ -42,6 +43,7 @@ public class ExtensionController {
     @PostMapping("/extension")
     public ResponseEntity<ResponseMessage> addExtension(@RequestBody Extension extension) {
         Extension inserted = extensionService.insertExtension(extension);
+
         if(inserted == null) {
             throw new ExtensionDuplicateException(ResponseStatus.EXTENSION_EXISIT.getMsg());
         }
