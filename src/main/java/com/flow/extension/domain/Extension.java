@@ -1,12 +1,16 @@
 package com.flow.extension.domain;
 
+import com.flow.extension.converter.ExtensionTypeConverter;
 import com.flow.extension.enums.ExtensionType;
 
-import javax.persistence.Column;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import lombok.Getter;
+import lombok.Setter;
 
+import javax.persistence.*;
+
+@Entity
+@Getter
+@Setter
 @Table(name = "extension")
 public class Extension {
     @Id
@@ -14,9 +18,10 @@ public class Extension {
     @Column(name = "extension_id")
     private long extensionId;
 
-    @Column(name = "name", nullable = false)
+    @Column(name = "name",length = 20, nullable = false)
     private String name;
 
+    @Convert(converter = ExtensionTypeConverter.class)
     @Column(name = "type", nullable = false)
     private ExtensionType type;
 
