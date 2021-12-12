@@ -8,7 +8,11 @@ import lombok.Getter;
 public enum ResponseStatus {
     SUCCESS("success", "성공"),
     EXTENSION_NOT_FOUND("fail01", "해당 확장자를 찾지 못했습니다."),
-    EXTENSION_EXISIT("fail02", "해당 확장자는 이미 존재합니다.");
+    EXTENSION_EXISIT("fail02", "해당 확장자는 이미 존재합니다."),
+    DB_ACCESS_FAIL_ERROR("fail03","DB 관련된 에러가 발생하였습니다."),
+    NO_VALUE_OF_EXTENSION_TYPE("fail04", "파일 확장자 타입을 찾을 수 없습니다."),
+    INTERNAL_SERVER_ERROR("fail05","내부 서버 에러가 발생했습니다.");
+
     String code;
     String msg;
 
