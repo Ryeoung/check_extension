@@ -5,6 +5,9 @@ import com.flow.extension.domain.Extension;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+/**
+ * 확장자 객체에 관련된 서비스 클래스
+ */
 @Service
 public class ExtensionService {
     final ExtensionDao extensionDao;
@@ -14,11 +17,35 @@ public class ExtensionService {
         this.extensionDao = extensionDao;
     }
 
+    /**
+     * @param name 확장자 이름
+     * @return Extension
+     * 확장자 이름으로 확장자 클래스 찾기
+     */
     public Extension findByName(String name) {
         return extensionDao.findByName(name);
     }
 
-    public void insertExtension(Extension extension) {
-        extensionDao.save(extension);
+    /**
+     * @param extension 확장자 객체
+     * @return Extension 삽입한 확장자 객체
+     * 확장자 이름을 살펴보고 없으면 확장자 객체를 삽입한다.
+     */
+    public Extension insertExtension(Extension extension) {
+        Extension findExtension = extensionDao.findByName(extension.getName());
+        if(findExtension == null) {
+            return extensionDao.save(extension);
+        }
+
+        return null;
+    }
+
+    /**
+     * @param extension 확장자 객체
+     * @return Extension 수정한 확장자 객체
+     * 확장자 객체를 수정한다.
+     */
+    public Extension updateExtension(Extension extension) {
+        return extensionDao.save(extension);
     }
 }
