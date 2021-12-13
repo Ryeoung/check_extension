@@ -71,11 +71,13 @@ public class ExtensionServiceTest {
     void update() {
         String name = "bat";
         Extension extension = TestUtil.getExtension();
-        given(extensionDao.findByName(name)).willReturn(extension);
+        extension.setExtensionId(0L);
+        given(extensionDao.findByExtensionId(0L)).willReturn(extension);
         given(extensionDao.save(extension)).willReturn(extension);
 
+
         //when
-        Extension updated =  extensionService.updateExtension(extension);
+        Extension updated =  extensionService.updateExtension(0L, extension);
 
         //then
         Assertions.assertEquals(extension.getName(), updated.getName());
@@ -91,10 +93,12 @@ public class ExtensionServiceTest {
         String name = "bat";
         Extension extension = TestUtil.getExtension();
         extension.setType(ExtensionType.DEFAULT);
-        given(extensionDao.findByName(name)).willReturn(null);
+        extension.setExtensionId(0L);
+        given(extensionDao.findByExtensionId(0L)).willReturn(null);
+
 
         //when
-        Extension updated =  extensionService.updateExtension(extension);
+        Extension updated =  extensionService.updateExtension(0L, extension);
 
         //then
         Assertions.assertEquals(updated, null);

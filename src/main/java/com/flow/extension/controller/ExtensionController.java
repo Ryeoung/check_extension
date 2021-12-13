@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
+@CrossOrigin(origins = {"*"}, maxAge = 6000, methods = {RequestMethod.GET, RequestMethod.PUT, RequestMethod.POST, RequestMethod.DELETE,RequestMethod.OPTIONS})
 @RequestMapping("/api")
 public class ExtensionController {
     private final ExtensionService extensionService;
@@ -47,7 +48,7 @@ public class ExtensionController {
         if(inserted == null) {
             throw new ExtensionDuplicateException(ResponseStatus.EXTENSION_EXISIT.getMsg());
         }
-        return ResponseEntity.status(HttpStatus.OK).body(ResponseMessage.success());
+        return ResponseEntity.status(HttpStatus.OK).body(ResponseMessage.success(inserted));
     }
 
     /**
@@ -55,9 +56,9 @@ public class ExtensionController {
      * @return ResponseEntity<ResponseMessage> 성공 반환 데이터
      *  매개변수로 받은 파일 확장자 객체를 DB에서
      */
-    @PutMapping("/extension")
-    public ResponseEntity<ResponseMessage> updateFromExtension(@RequestBody Extension extension) {
-        Extension updated = extensionService.updateExtension(extension);
+    @PutMapping("/extension/{extensionId}")
+    public ResponseEntity<ResponseMessage> updateFromExtension(@PathVariable Long extensionId, @RequestBody Extension extension) {
+        Extension updated = extensionService.updateExtension(extensionId, extension);
         if(updated == null ){
             throw new ExtensionNotFoundException(ResponseStatus.EXTENSION_NOT_FOUND.getMsg());
         }

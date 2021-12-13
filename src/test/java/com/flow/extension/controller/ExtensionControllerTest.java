@@ -92,11 +92,11 @@ public class ExtensionControllerTest {
         e.setName("ece");
         System.out.println(e);
 
-        given(extensionService.updateExtension(any())).willReturn(e);
+        given(extensionService.updateExtension(anyLong(),any())).willReturn(e);
 
         ObjectMapper objectMapper = new ObjectMapper();
         String inserted = objectMapper.writeValueAsString(e);
-        ResultActions actions = mvc.perform(put("/api/extension")
+        ResultActions actions = mvc.perform(put("/api/extension/1")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(inserted))
                 .andDo(print());

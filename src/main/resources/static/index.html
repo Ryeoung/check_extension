@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel ="stylesheet" type="text/css" href="css/style.css">
+    <title>확장자 차단</title>
+</head>
+<body>
+    <article class="container flex_box flex_dir_col align_center_center">
+        <article id="extension_main">
+            <section class="extension_section flex_box flex_dir_row align_center_between">
+                <label for="">고정 확장자</label>
+                <article id="checkBoxArticle">
+                </article>
+            </section>
+
+            <section class="extension_section flex_box flex_dir_row align_none_between">
+                <label for="">커스텀 확장자</label>
+                <article id="customArticle">
+                    <article>
+                        <input type="text" id="custom_extension_input" placeholder="확장자 입력"/>
+                        <input type="button" id="custom_extension_submit"value="+추가" />
+                    </article>
+                    <article id="custom_extension_show" >
+                        <div class="flex_box flex_dir_row "><p id="tag_cnt">0</p><p>/200</p></div>
+                        <article class="flex_box flex_dir_row flex_wrap" id = "customExtensionTagArticle"></article>
+                    </article>
+                </article>
+            </section>
+        </article>
+    </article>
+</body>
+<script src= "js/lib/handlebars.min-v4.7.2.js"></script>
+<script type="module" src="js/app.js"></script>
+</html>

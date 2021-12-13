@@ -1,0 +1,87 @@
+.flex_box{
+    display: flex;
+}
+
+.flex_dir_row{
+    flex-direction: row;
+}
+.flex_dir_col{
+    flex-direction: column;
+}
+.align_center_center{
+    align-items: center;
+    justify-content: center;
+}
+.align_none_between{
+    justify-content: space-between;
+}
+.align_center_between {
+    align-items: center;
+    justify-content: space-between;
+}
+.container{
+    width: 100%;
+    min-width: 600px;
+    height: 700px;
+}
+#extension_main {
+    width: 70%;
+}
+
+#checkBoxArticle, #customArticle, #custom_extension_show{
+    width: 80%;
+    font-size: 18px;
+}
+label{
+    font-size: 20px;
+}
+#custom_extension_input {
+    width: 40%;
+    min-width: 200px;
+    height: 25px;
+    padding-left: 10px;
+}
+
+#custom_extension_submit{
+    height: 30px;
+}
+
+#custom_extension_submit:hover{
+    cursor: pointer;
+}
+
+#custom_extension_show{
+    min-height: 400px;
+    border: solid 2px gray;
+    border-radius: 10px 10px;
+    padding: 10px 10px 10px 10px;
+    margin-top: 10px;
+}
+.extension_section {
+    margin-bottom: 10px;
+}
+.custom_extension_tag {
+    border: solid 1px gray;
+    border-radius: 5px 5px;
+    min-width: 80px;
+    height: 30px;
+    margin-right: 10px;
+    margin-top: 10px;
+
+}
+.delete_btn{
+    background-color: white;
+    border: none;
+    margin-left: 10px;
+    font-weight: 700;
+}
+.delete_btn:hover {
+    cursor: pointer;
+}
+#tag_cnt{
+    height: 10px;
+}
+.flex_wrap{
+    flex-wrap: wrap;
+
+}

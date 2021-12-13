@@ -16,7 +16,7 @@ import javax.persistence.*;
 @Table(name = "extension")
 public class Extension {
     @Id
-    @GeneratedValue(strategy = GenerationType.TABLE)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "extension_id")
     private Long extensionId;
 

@@ -52,17 +52,19 @@ public class ExtensionService {
     }
 
     /**
+     * @param extensionId 확장자 기본키
      * @param extension 확장자 객체
      * @return Extension 수정한 확장자 객체
      * 확장자 객체를 수정한다.
      * 만약 확장짜 객체가 없으면 Null
      */
-    public Extension updateExtension(Extension extension) {
-        Extension findExtension = extensionDao.findByName(extension.getName());
+    public Extension updateExtension(Long extensionId, Extension extension) {
+        Extension findExtension = extensionDao.findByExtensionId(extensionId);
         if(findExtension == null) {
             return null;
         }
-        return extensionDao.save(extension);
+        findExtension.setBlock(extension.isBlock());
+        return extensionDao.save(findExtension);
     }
 
     /**
