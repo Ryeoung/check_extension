@@ -1,9 +1,11 @@
 package com.flow.extension.controller;
 
 import com.flow.extension.domain.Extension;
+import com.flow.extension.enums.ExtensionType;
 import com.flow.extension.enums.ResponseStatus;
 import com.flow.extension.exceptions.ExtensionDuplicateException;
 import com.flow.extension.exceptions.ExtensionNotFoundException;
+import com.flow.extension.exceptions.MaxDataOfCustomExtensionException;
 import com.flow.extension.response.ResponseMessage;
 import com.flow.extension.service.ExtensionService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -44,6 +46,10 @@ public class ExtensionController {
      */
     @PostMapping("/extension")
     public ResponseEntity<ResponseMessage> addExtension(@Valid @RequestBody Extension extension) {
+        int cnt = extensionService.countByExtensionType(ExtensionType.CUSTOM);
+        if(cnt >= 200) {
+            throw new MaxDataOfCustomExtensionException(ResponseStatus.MAX_DATA_OF_CUSTOM_ERROR.getMsg());
+        }
         Extension inserted = extensionService.insertExtension(extension);
 
         if(inserted == null) {

@@ -3,6 +3,7 @@ package com.flow.extension.advice;
 import com.flow.extension.enums.ResponseStatus;
 import com.flow.extension.exceptions.ExtensionDuplicateException;
 import com.flow.extension.exceptions.ExtensionNotFoundException;
+import com.flow.extension.exceptions.MaxDataOfCustomExtensionException;
 import com.flow.extension.exceptions.NoValueOfExtensionTypeException;
 import com.flow.extension.response.ResponseMessage;
 import org.springframework.dao.DataAccessException;
@@ -24,15 +25,19 @@ public class ExtensionControllerAdvice {
      * @return ResponseEntity<ResponseMessage>
      *     사용자 지정 에러 객체를 처리
      */
-    @ExceptionHandler({ExtensionDuplicateException.class, ExtensionNotFoundException.class, NoValueOfExtensionTypeException.class})
+    @ExceptionHandler({ExtensionDuplicateException.class, ExtensionNotFoundException.class,
+            NoValueOfExtensionTypeException.class, MaxDataOfCustomExtensionException.class})
     public ResponseEntity<ResponseMessage> handlerCustomException(HttpServletRequest request, Exception exception) {
         ResponseMessage rm = null;
         if( exception instanceof ExtensionDuplicateException) {
             rm = new ResponseMessage(ResponseStatus.EXTENSION_EXISIT);
         } else if(exception instanceof ExtensionNotFoundException) {
             rm = new ResponseMessage(ResponseStatus.EXTENSION_NOT_FOUND);
-        } else {
+        } else if(exception instanceof NoValueOfExtensionTypeException) {
             rm = new ResponseMessage(ResponseStatus.NO_VALUE_OF_EXTENSION_TYPE);
+        } else {
+            rm = new ResponseMessage(ResponseStatus.MAX_DATA_OF_CUSTOM_ERROR);
+
         }
         return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(rm);
     }
@@ -43,7 +48,7 @@ public class ExtensionControllerAdvice {
      * @return ResponseEntity<ResponseMessage>
      *     영속성 관련  에러 객체를 처리
      */
-    @ExceptionHandler({PersistenceException.class, })
+    @ExceptionHandler({PersistenceException.class})
     public ResponseEntity<ResponseMessage> handlerJpaException(HttpServletRequest request, Exception exception) {
         ResponseMessage rm = new ResponseMessage(ResponseStatus.DB_ACCESS_FAIL_ERROR);
         return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(rm);

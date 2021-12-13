@@ -1,6 +1,7 @@
 package com.flow.extension.dao;
 
 import com.flow.extension.domain.Extension;
+import com.flow.extension.enums.ExtensionType;
 import com.flow.extension.utils.TestUtil;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
@@ -108,5 +109,17 @@ public class ExtensionDaoTest {
         Extension findExtension = extensionDao.findByName(extension.getName());
         Assertions.assertEquals(findExtension, null);
 
+    }
+
+    /**
+     * 확장자 타입 데이터 갯수 테스트
+     */
+    @Test
+    void countByType(){
+        ExtensionType type = ExtensionType.CUSTOM;
+        //when
+        int cnt = extensionDao.countByType(type);
+
+        Assertions.assertEquals(cnt, 6);
     }
 }

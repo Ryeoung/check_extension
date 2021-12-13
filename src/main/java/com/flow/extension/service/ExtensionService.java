@@ -2,6 +2,7 @@ package com.flow.extension.service;
 
 import com.flow.extension.dao.ExtensionDao;
 import com.flow.extension.domain.Extension;
+import com.flow.extension.enums.ExtensionType;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -45,6 +46,7 @@ public class ExtensionService {
      */
     public Extension insertExtension(Extension extension) {
         Extension findExtension = extensionDao.findByName(extension.getName());
+        int cnt = countByExtensionType(ExtensionType.CUSTOM);
         if(findExtension == null) {
             return extensionDao.save(extension);
         }
@@ -52,6 +54,15 @@ public class ExtensionService {
         return null;
     }
 
+    /**
+     * @param type 확장자 타입
+     * @return int
+     *
+     * 해당 확장자 타입 데이터 수 찾기
+     */
+    public int countByExtensionType(ExtensionType type) {
+        return extensionDao.countByType(type);
+    }
     /**
      * @param extensionId 확장자 기본키
      * @param extension 확장자 객체

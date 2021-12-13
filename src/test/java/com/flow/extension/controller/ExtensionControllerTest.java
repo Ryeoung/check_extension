@@ -2,6 +2,10 @@ package com.flow.extension.controller;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.flow.extension.domain.Extension;
+import com.flow.extension.enums.ExtensionType;
+import com.flow.extension.exceptions.ExtensionDuplicateException;
+import com.flow.extension.exceptions.ExtensionNotFoundException;
+import com.flow.extension.exceptions.MaxDataOfCustomExtensionException;
 import com.flow.extension.service.ExtensionService;
 import com.flow.extension.utils.TestUtil;
 import org.junit.jupiter.api.Test;
@@ -15,6 +19,7 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.ResultActions;
 
 import static org.hamcrest.core.Is.is;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyLong;
 import static org.mockito.Mockito.when;
@@ -74,11 +79,60 @@ public class ExtensionControllerTest {
                         .content(inserted))
                 .andDo(print());
 
-
-
         actions.andExpect(status().isOk())
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON))
                 .andExpect(jsonPath("$.status.code", is("success")))
+                .andDo(print());
+    }
+    /**
+     * 파일 확장자 삽입 체크 ( 삽입하고 싶은 데이터가 이미 있는 경우)
+     */
+    @Test
+    void addExtensionDuplicateException() throws Exception{
+        Extension e = TestUtil.getExtension();
+        e.setExtensionId(20L);
+        e.setName("ece");
+        System.out.println(e);
+        given(extensionService.countByExtensionType(ExtensionType.CUSTOM)).willReturn(1);
+        given(extensionService.insertExtension(any())).willReturn(null);
+
+        ObjectMapper objectMapper = new ObjectMapper();
+        String inserted = objectMapper.writeValueAsString(e);
+        ResultActions actions = mvc.perform(post("/api/extension")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(inserted))
+                .andDo(print());
+
+
+
+        actions.andExpect(status().isInternalServerError())
+                .andExpect(result -> assertTrue(result.getResolvedException() instanceof ExtensionDuplicateException))
+                .andDo(print());
+    }
+
+    /**
+     * 파일 확장자 삽입 체크 ( 커스텀 확장자 데이터가 200개가 넘개 이미 있을 경우)
+     */
+    @Test
+    void addExtensionMaxDataException() throws Exception{
+        Extension e = TestUtil.getExtension();
+        e.setExtensionId(20L);
+        e.setName("ece");
+        System.out.println(e);
+        given(extensionService.countByExtensionType(ExtensionType.CUSTOM)).willReturn(200);
+        given(extensionService.insertExtension(any())).willReturn(e);
+
+        ObjectMapper objectMapper = new ObjectMapper();
+        String inserted = objectMapper.writeValueAsString(e);
+        ResultActions actions = mvc.perform(post("/api/extension")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(inserted))
+                .andDo(print());
+
+
+
+        actions.andExpect(status().isInternalServerError())
+                .andExpect(result -> assertTrue(result.getResolvedException() instanceof MaxDataOfCustomExtensionException))
                 .andDo(print());
     }
 
@@ -106,6 +160,32 @@ public class ExtensionControllerTest {
         actions.andExpect(status().isOk())
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON))
                 .andExpect(jsonPath("$.status.code", is("success")))
+                .andDo(print());
+    }
+
+    /**
+     * 파일 확장자 수정 체크( 수정하고자 하는 데이터가 없을 경우)
+     */
+    @Test
+    void updateFromExtensionNotFoundException() throws Exception{
+        Extension e = TestUtil.getExtension();
+
+        e.setName("ece");
+        System.out.println(e);
+
+        given(extensionService.updateExtension(anyLong(),any())).willReturn(null);
+
+        ObjectMapper objectMapper = new ObjectMapper();
+        String inserted = objectMapper.writeValueAsString(e);
+        ResultActions actions = mvc.perform(put("/api/extension/1")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(inserted))
+                .andDo(print());
+
+
+
+        actions.andExpect(status().isInternalServerError())
+                .andExpect(result -> assertTrue(result.getResolvedException() instanceof ExtensionNotFoundException))
                 .andDo(print());
     }
 

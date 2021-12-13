@@ -16,7 +16,6 @@ import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.util.List;
 
-import static org.mockito.ArgumentMatchers.anyLong;
 import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.*;
 
@@ -167,5 +166,21 @@ public class ExtensionServiceTest {
         //then
         verify(extensionDao, times(0)).delete(extension);
         Assertions.assertEquals(isDelete, false);
+    }
+
+    /**
+     *  ExtensionType 별 데이터 갯 수 반환하는 메소드 테스트
+     */
+    @Test
+    void countByExtensionType(){
+        given(extensionDao.countByType(ExtensionType.CUSTOM)).willReturn(20);
+
+        //when
+        int cnt = extensionService.countByExtensionType(ExtensionType.CUSTOM);
+
+        //then
+        verify(extensionDao, times(1)).countByType(ExtensionType.CUSTOM);
+        Assertions.assertEquals(cnt, 20);
+
     }
 }
