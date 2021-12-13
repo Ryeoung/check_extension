@@ -11,6 +11,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.List;
 
 @RestController
@@ -42,7 +43,7 @@ public class ExtensionController {
      *  매개변수로 받는 파일확장자 객체를 DB에 삽입한다.
      */
     @PostMapping("/extension")
-    public ResponseEntity<ResponseMessage> addExtension(@RequestBody Extension extension) {
+    public ResponseEntity<ResponseMessage> addExtension(@Valid @RequestBody Extension extension) {
         Extension inserted = extensionService.insertExtension(extension);
 
         if(inserted == null) {

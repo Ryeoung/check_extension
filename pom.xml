@@ -20,6 +20,8 @@
 		<maven.compiler.target>8</maven.compiler.target>
 	</properties>
 	<dependencies>
+
+
 		<!--	@Getter , @Setter 	-->
 		<dependency>
 			<groupId>org.projectlombok</groupId>
@@ -36,6 +38,12 @@
 			<artifactId>spring-boot-starter-test</artifactId>
 			<scope>test</scope>
 		</dependency>
+		<!--	@validation	-->
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-validation</artifactId>
+		</dependency>
+
 		<!-- mysql 설정 - mysql용 jbc 드라이버 -->
 		<dependency>
 			<groupId>mysql</groupId>
