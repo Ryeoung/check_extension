@@ -9,7 +9,7 @@ export class DefaultExtension{
         this.makeCheckBox(defaultExtensions);
         this.addChangeEvent();
     }
-    /**
+    /*
      * 
      * @param  extensions 고정 확장자 데이터(DB에서 받아온 데이터)
      * 
@@ -20,7 +20,7 @@ export class DefaultExtension{
         let checkboxs = templateParser.stringToElement(checkboxHTML);
         this.checkBoxArticle.appendChild(checkboxs);
     }
-    /**
+    /*
      * checkbox event를 걸어준다.
      */
     addChangeEvent() {
@@ -32,7 +32,7 @@ export class DefaultExtension{
         });
     }
 
-    /**
+    /*
      *
      * @param checkboxElmt 체크박스 요소
      *

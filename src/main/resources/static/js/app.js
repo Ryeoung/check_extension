@@ -14,7 +14,7 @@ class App {
         this.defaultExtension = null;
         this.customExtension = null;
     }
-    /**
+    /*
      * Ajax로 모든 확장자 객체를 받아온다.
      */
     requestAllExtensions(){
@@ -24,7 +24,7 @@ class App {
             contentType : "application/json; charset=utf-8"
         }, this.getExtensionsSuccess.bind(this));
     }
-    /**
+    /*
      * 모든 확장자 객체 받아오기 성공했을 경우
      * extensionsDick에 담는다.
      * 다른 객체 초기화

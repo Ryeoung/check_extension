@@ -54,7 +54,7 @@ public class ExtensionControllerAdvice {
         ResponseMessage rm = new ResponseMessage(ResponseStatus.DB_ACCESS_FAIL_ERROR);
         return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(rm);
     }
-    
+
     /**
      * @param request Http 요쳥 객체
      * @param exception 에러 객체

@@ -16,7 +16,7 @@ export class CustomExtension{
         this.addSubitExtensionEvent()
         
     }
-    /**
+    /*
      * 커스텀 파일확장자에 공백이 들어가선 안되는 규칙 체크
      */
     addKeyUpEvent() {
@@ -31,7 +31,7 @@ export class CustomExtension{
             this.customExtensionInput.value = this.customExtensionInput.value.replace(/ /g,"");
         });
     }
-    /**
+    /*
      * 커스텀 파일 확장자 추가
      */
     addSubitExtensionEvent() {
@@ -45,7 +45,7 @@ export class CustomExtension{
         });
     }
 
-    /**
+    /*
      * 커스텀 확장자 등록 요청(ajax)
      */
     requestPushExtensionToServer() {
@@ -66,7 +66,7 @@ export class CustomExtension{
 
     }
 
-    /**
+    /*
      *
      * @param customExtension 커스텀 확장자 데이터
      *
@@ -82,7 +82,7 @@ export class CustomExtension{
 
     }
 
-    /**
+    /*
      *
      * @param customExtensionList 커스텀 확장자 데이터 리스트
      *
@@ -99,7 +99,7 @@ export class CustomExtension{
         this.updateCustomExtensionCnt(customExtensionList.length);
     }
 
-    /**
+    /*
      *
      * @param customExtensionElmt 커스텀 확장자 html 테그
      *
@@ -113,7 +113,7 @@ export class CustomExtension{
 
     }
 
-    /**
+    /*
      *
      * @param customExtensionElmt 커스텀 확장자 HTML 테그
      *
@@ -132,7 +132,7 @@ export class CustomExtension{
         });
     }
 
-    /**
+    /*
      *
      * @param cnt 변경될 숫자
      *
