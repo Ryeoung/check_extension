@@ -10,6 +10,7 @@ import org.springframework.dao.DataAccessException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.jdbc.CannotGetJdbcConnectionException;
+import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
@@ -53,7 +54,18 @@ public class ExtensionControllerAdvice {
         ResponseMessage rm = new ResponseMessage(ResponseStatus.DB_ACCESS_FAIL_ERROR);
         return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(rm);
     }
-
+    
+    /**
+     * @param request Http 요쳥 객체
+     * @param exception 에러 객체
+     * @return ResponseEntity<ResponseMessage>
+     *     타당성 검사 관련 에러 체리
+     */
+    @ExceptionHandler({MethodArgumentNotValidException.class})
+    public ResponseEntity<ResponseMessage> handlerValidateException(HttpServletRequest request, Exception exception) {
+        ResponseMessage rm = new ResponseMessage(ResponseStatus.NO_VALID_ARGUMENT);
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(rm);
+    }
     /**
      * @param request Http 요쳥 객체
      * @param exception 에러 객체
