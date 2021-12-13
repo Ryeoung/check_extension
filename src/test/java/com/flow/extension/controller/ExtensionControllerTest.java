@@ -212,5 +212,27 @@ public class ExtensionControllerTest {
                 .andExpect(jsonPath("$.status.code", is("success")))
                 .andDo(print());
     }
+    /**
+     * 파일 확장자 삭제 테스트( 삭제할 데이터가 없는 경우 )
+     */
+    @Test
+    void deleteFromExtensionNotFoundException() throws Exception{
+        Extension e = TestUtil.getExtension();
+
+        e.setName("ece");
+        System.out.println(e);
+
+        given(extensionService.deleteExtension(anyLong())).willReturn(false);
+
+        ResultActions actions = mvc.perform(delete("/api/extension/1")
+                        .contentType(MediaType.APPLICATION_JSON))
+                .andDo(print());
+
+
+
+        actions.andExpect(status().isInternalServerError())
+                .andExpect(result -> assertTrue(result.getResolvedException() instanceof ExtensionNotFoundException))
+                .andDo(print());
+    }
 
 }
