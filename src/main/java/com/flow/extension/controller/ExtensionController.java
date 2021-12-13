@@ -15,7 +15,7 @@ import javax.validation.Valid;
 import java.util.List;
 
 @RestController
-@CrossOrigin(origins = {"*"}, maxAge = 6000, methods = {RequestMethod.GET, RequestMethod.PUT, RequestMethod.POST, RequestMethod.DELETE,RequestMethod.OPTIONS})
+@CrossOrigin(origins = {"*"}, maxAge = 6000)
 @RequestMapping("/api")
 public class ExtensionController {
     private final ExtensionService extensionService;

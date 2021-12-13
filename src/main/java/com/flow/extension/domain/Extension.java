@@ -10,6 +10,7 @@ import org.hibernate.validator.constraints.Length;
 
 import javax.persistence.*;
 import javax.validation.Valid;
+import javax.validation.constraints.NotBlank;
 
 @Entity
 @Getter
@@ -22,6 +23,7 @@ public class Extension {
     @Column(name = "extension_id")
     private Long extensionId;
 
+    @NotBlank
     @Length(min=1, max = 20)
     @Column(name = "name",length = 20, nullable = false, unique = true)
     private String name;
